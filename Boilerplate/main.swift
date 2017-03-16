@@ -3,18 +3,18 @@
 import Foundation
 
 // ---
-// MARK: - DotTransformOperator
+// MARK: - Pipe-forward Operator
 // ---
 
-precedencegroup DotTransformPrecedence {
+precedencegroup PipeForwardPrecedence {
 	higherThan: MultiplicationPrecedence
 	assignment: true
 }
-infix operator .> : DotTransformPrecedence
+infix operator |> : PipeForwardPrecedence
 
-/// Dot Transform Operation
-/// arg.>transform is equivalent to transform(arg)
-public func .> <U, V>(arg: U, transform: (U) -> V ) -> V {
+/// Pipe-forward Operator
+/// arg|>transform is equivalent to transform(arg)
+public func |> <U, V>(arg: U, transform: (U) -> V ) -> V {
 	return transform(arg)
 }
 
@@ -161,7 +161,7 @@ extension MutableCollection where Indices.Iterator.Element == Index {
 		guard c > 1 else { return }
 
 		for (firstUnshuffled , unshuffledCount) in zip(indices, stride(from: c, to: 1, by: -1)) {
-			let d: IndexDistance = random[0...numericCast(unshuffledCount-1)].>numericCast
+			let d: IndexDistance = random[0...numericCast(unshuffledCount-1)]|>numericCast
 			guard d != 0 else { continue }
 			let i = index(firstUnshuffled, offsetBy: d)
 			swap(&self[firstUnshuffled], &self[i])
