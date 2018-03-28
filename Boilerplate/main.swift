@@ -14,10 +14,9 @@ infix operator |> : PipeForwardPrecedence
 
 /// Pipe-forward Operator
 /// arg|>transform is equivalent to transform(arg)
-public func |> <U, V>(arg: U, transform: (U) -> V ) -> V {
-	return transform(arg)
+public func |> <U, V>(arg: U, transform: (U) throws -> V ) rethrows -> V {
+	return try transform(arg)
 }
-
 
 // MARK: - Logging stuff
 public struct StderrOutputStream: TextOutputStream {
